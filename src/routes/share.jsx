@@ -147,7 +147,7 @@ export default function Share() {
                                 </div>
 
                                 <div className="main__btn-wrap">
-                                    <a className="btn" href={imageUrl} download>Загрузить</a>
+                                    <a className="btn" href={imageUrl} download>Скачать</a>
 
                                     <Link className="miss" to="/">Пропустить</Link>
                                 </div>
