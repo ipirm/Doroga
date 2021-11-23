@@ -1,9 +1,10 @@
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import axios from "axios";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 
 export default function Thank() {
   const imageChooserRef = useRef(null)
+  const [redirectToShare, setRedirectToShare] = useState(false)
 
   const onFileChange = async e => {
     const file = e.target.files[0];
@@ -12,6 +13,7 @@ export default function Thank() {
       formData.append('image', file)
       await axios.post('/image').then(res => {
         console.log(res.data)
+        // setRedirectToShare(true)
       })
     }
   }
@@ -22,6 +24,7 @@ export default function Thank() {
 
   return (
     <div>
+      { redirectToShare ? <Redirect to="/share" /> : null }
       <input
         placeholder="Загрузить файлы"
         type="file"
