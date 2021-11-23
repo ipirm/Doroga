@@ -11,9 +11,9 @@ export default function App() {
                         </nav>
                         <div className="mob-nav">
                             <div className="header__logo-wrap">
-                                <a href="#">
+                                <Link to="/">
                                     <img src="/img/heart.svg" alt="" />
-                                </a>
+                                </Link>
 
                                 <a href="https://doroga-zhizni.org/" target="_blank">
                                     <img src="/img/logo.svg" alt="" />
@@ -46,9 +46,9 @@ export default function App() {
                         </div>
 
                         <div className="header__logo-wrap">
-                            <a href="#">
+                            <Link to="/">
                                 <img src="/img/heart.svg" alt="" />
-                            </a>
+                            </Link>
 
                             <a href="https://doroga-zhizni.org/" target="_blank">
                                 <img src="/img/logo.svg" alt="" />

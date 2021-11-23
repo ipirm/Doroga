@@ -11,9 +11,9 @@ export default function Thank() {
                     </nav>
                     <div className="mob-nav">
                         <div className="header__logo-wrap">
-                            <a href="#">
+                            <Link to="/">
                                 <img src="img/heart.svg" alt=""/>
-                            </a>
+                            </Link>
                             <a href="https://doroga-zhizni.org/" target="_blank">
                                 <img src="img/logo.svg" alt=""/>
                             </a>
@@ -41,9 +41,9 @@ export default function Thank() {
                         </a>
                     </div>
                     <div className="header__logo-wrap">
-                        <a href="#">
+                        <Link to="/">
                             <img src="img/heart.svg" alt=""/>
-                        </a>
+                        </Link>
                         <a href="https://doroga-zhizni.org/">
                             <img src="img/logo.svg" alt=""/>
                         </a>
