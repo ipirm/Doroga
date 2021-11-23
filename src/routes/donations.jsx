@@ -17,11 +17,27 @@ export default function Donations() {
         }
     }, [selectedAmount,otherSumValue])
 
+    const nameInputRef = useRef(null)
+    const mailInputRef = useRef(null)
+    const otherSumRef = useRef(null)
+
+    const setInputValue = (e, setFunc, inputRef) => {
+        setFunc(e.target.value)
+
+        const placeholder = inputRef?.current?.querySelector('.input-placeholder')
+        if (e.target.value.trim() !== '') {
+            placeholder.classList.add('no-placeholder')
+        } else {
+            placeholder.classList.remove('no-placeholder')
+        }
+    }
+
     const pay = function () {
 
         if (amount <=0) {
             return
         }
+
         let widget = new window.cp.CloudPayments();
         widget.pay('charge', // или 'charge'
             { //options
@@ -48,23 +64,23 @@ export default function Donations() {
         )
     };
 
-    const onSubmitPayment = (e) => {
-        e.preventDefault()
-        pay()
-    }
-
-    const nameInputRef = useRef(null)
-    const mailInputRef = useRef(null)
-    const otherSumRef = useRef(null)
-
-    const setInputValue = (e, setFunc, inputRef) => {
+    const inputValidation = (e, setFunc, inputRef) => {
         setFunc(e.target.value)
 
-        const placeholder = inputRef?.current?.querySelector('.input-placeholder')
+        const input = inputRef?.current?.querySelector('.input-target')
         if (e.target.value.trim() !== '') {
-            placeholder.classList.add('no-placeholder')
+            input.classList.add('red-border')
         } else {
-            placeholder.classList.remove('no-placeholder')
+            input.classList.remove('red-border')
+        }
+    }
+
+    const onSubmitPayment = (e) => {
+        e.preventDefault()
+        if (name.value === '' && mail.value === '') {
+            inputValidation()
+        } else {
+            pay()
         }
     }
 
