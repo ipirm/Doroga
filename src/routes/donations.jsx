@@ -1,6 +1,7 @@
-import {useEffect, useMemo, useRef, useState} from "react";
-import { Navigate } from "react-router-dom";
+import {useMemo, useRef, useState} from "react";
+import { Navigate, Link } from "react-router-dom";
 import axios from "axios";
+
 export default function Donations() {
     const [visibleImages, setVisibleImages] = useState([])
     const [fetchedImages, setFetchedImages] = useState([])
@@ -117,9 +118,9 @@ export default function Donations() {
                     <div className="mob-nav">
 
                         <div className="header__logo-wrap">
-                            <a href="#">
+                            <Link to="/">
                                 <img src="/img/heart.svg" alt="" />
-                            </a>
+                            </Link>
 
                             <a href="https://doroga-zhizni.org/" target="_blank">
                                 <img src="/img/logo.svg" alt="" />
@@ -152,9 +153,9 @@ export default function Donations() {
                     </div>
 
                     <div className="header__logo-wrap">
-                        <a href="#">
+                        <Link to="/">
                             <img src="/img/heart.svg" alt="" />
-                        </a>
+                        </Link>
 
                         <a href="https://doroga-zhizni.org/" target="_blank">
                             <img src="/img/logo.svg" alt="" />
