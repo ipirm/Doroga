@@ -1,6 +1,34 @@
 import {Link} from "react-router-dom";
 import {SnackbarProvider} from "notistack";
+import {useEffect, useMemo, useState} from "react";
+import axios from "axios";
 export default function App() {
+    const [acquiredSum, setAcquiredSum] = useState(0)
+    const [maxSum] = useState(3000000)
+
+    useEffect(() => {
+        (async () => {
+            await axios.get('/sum')
+              .then(res => {
+                  if (res.data.result) {
+                      setAcquiredSum(parseFloat(res.data.result))
+                  }
+              })
+              .catch(e => {
+                  console.error(e)
+              })
+        })()
+    }, [])
+
+    const visibleSum = useMemo(() => {
+        const parts = acquiredSum.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        return parts.join(".");
+    }, [acquiredSum])
+
+    const percentage = useMemo(() => {
+        return Math.min(100, acquiredSum / maxSum * 100)
+    }, [acquiredSum])
 
     return (
         <div>
@@ -87,9 +115,9 @@ export default function App() {
 
                                     <div className="progress">
                                         <progress max="100" value="30"></progress>
-                                        <div className="progress-value">Уже собрали 352 390 рублей на</div>
+                                        <div className="progress-value">Уже собрали { visibleSum } рублей на</div>
                                         <div className="progress-bg">
-                                            <div className="progress-bar"></div>
+                                            <div className="progress-bar" style={{ width: `${percentage}%` }} />
                                         </div>
                                     </div>
 
