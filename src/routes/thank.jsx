@@ -25,7 +25,7 @@ export default function Thank() {
         })
         .catch(e => {
           console.error(e)
-          enqueueSnackbar('Произошла ошибка при загрузке вашей фотографии, пожалуйста попоробуйте еще раз', {
+          enqueueSnackbar('Произошла ошибка при загрузке вашей фотографии, пожалуйста попробуйте еще раз', {
             variant: 'error'
           })
           setImageLoading(false)
@@ -87,9 +87,9 @@ export default function Thank() {
               </a>
             </div>
             <div className="header__logo-wrap">
-              <a href="#">
+              <Link to="/">
                 <img src="img/heart.svg" alt=""/>
-              </a>
+              </Link>
               <a href="https://doroga-zhizni.org/">
                 <img src="img/logo.svg" alt=""/>
               </a>
