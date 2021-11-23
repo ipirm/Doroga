@@ -1,10 +1,63 @@
-
+import {useMemo, useState} from "react";
+import { Navigate } from "react-router-dom";
 export default function Donations() {
+    const [otherSumValue, setOtherSumValue] = useState('')
+    const [selectedAmount,setSelectedAmount] = useState('')
+    const [name, setName] = useState('')
+    const [mail, setMail] = useState('')
+    const [isPaymentSuccess, setIsPaymentSuccess] = useState(false)
+
+        const amount = useMemo(() => {
+        if (selectedAmount) {
+            return selectedAmount
+        }else if(otherSumValue && !isNaN(otherSumValue)) {
+         return otherSumValue
+        }else {
+            return 0
+        }
+    }, [selectedAmount,otherSumValue])
+
+    const pay = function () {
+
+        if (amount <=0) {
+            return
+        }
+        let widget = new window.cp.CloudPayments();
+        widget.pay('charge', // или 'charge'
+            { //options
+                publicId: 'pk_8f4a3e73345dc747c920553b51c6b', //id из личного кабинета
+                description: 'Оплата товаров в example.com', //назначение
+                amount: parseFloat(amount), //сумма
+                currency: 'RUB', //валюта
+                skin: "mini", //дизайн виджета (необязательно)
+                data: {
+                    myProp: 'myProp value'
+                }
+            },
+            {
+                onSuccess: function (options) { // success
+                    setIsPaymentSuccess(true)
+                },
+                onFail: function (reason, options) { // fail
+                    //действие при неуспешной оплате
+                },
+                onComplete: function (paymentResult, options) { //Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
+                    //например вызов вашей аналитики Facebook Pixel
+                }
+            }
+        )
+    };
+
+    const onSubmitPayment = (e) => {
+        e.preventDefault()
+        pay()
+    }
+
     return (
         <body>
         <div className="overlay"></div>
 
-
+        {isPaymentSuccess ? <Navigate to="/thank "/> : null}
         <div className="body s-gallery">
             <header className="header">
                 <div className="header__wrap">
@@ -20,7 +73,7 @@ export default function Donations() {
                                 <img src="/img/heart.svg" alt="" />
                             </a>
 
-                            <a href="#">
+                            <a href="https://doroga-zhizni.org/" target="_blank">
                                 <img src="/img/logo.svg" alt="" />
                             </a>
 
@@ -55,7 +108,7 @@ export default function Donations() {
                             <img src="/img/heart.svg" alt="" />
                         </a>
 
-                        <a href="#">
+                        <a href="https://doroga-zhizni.org/" target="_blank">
                             <img src="/img/logo.svg" alt="" />
                         </a>
 
@@ -122,68 +175,84 @@ export default function Donations() {
                                 Сделать пожертвование
                             </h1>
 
-                            <form id="donations" className="donations__form-wrap">
-
+                            <form id="donations" className="donations__form-wrap" onSubmit={onSubmitPayment}>
                                 <div className="donations__money-wrap">
-
                                     <div className="donations__money-item">
-
-                                        <input className="custom-radio" name="money" type="radio" id="50" />
-
+                                        <input className="custom-radio"
+                                               name="money"
+                                               type="radio"
+                                               id="50"
+                                               onInput={(e) => setSelectedAmount('50')}
+                                        />
                                             <label htmlFor="50"><span>50 ₽</span></label></div>
-
                                     <div className="donations__money-item">
-
-                                        <input className="custom-radio" name="money" type="radio" id="100" />
-
+                                        <input
+                                            className="custom-radio"
+                                            name="money"
+                                            type="radio"
+                                            id="100"
+                                            onInput={(e) => setSelectedAmount('100')}
+                                        />
                                             <label htmlFor="100"><span>100 ₽</span></label>
-
                                     </div>
-
                                     <div className="donations__money-item">
-
-                                        <input className="custom-radio" name="money" type="radio" id="500" />
-
+                                        <input
+                                            className="custom-radio"
+                                            name="money"
+                                            type="radio"
+                                            id="500"
+                                            onInput={(e) => setSelectedAmount('500')}
+                                        />
                                             <label htmlFor="500"><span>500 ₽</span></label>
-
                                     </div>
-
                                 </div>
-
-
                                 <div className="input__wrap">
                                     <label className="input">
-                                        <input id="sum" name="sum" type="text" placeholder="Другая сумма" />
+                                        <input
+                                            id="sum"
+                                            name="sum"
+                                            type="text"
+                                            placeholder="Другая сумма"
+                                            value={otherSumValue}
+                                            onInput={(e) => setOtherSumValue(e.target.value)}
+                                        />
                                     </label>
                                 </div>
-
                                 <div className="input__wrap">
                                     <label className="input">
-                                        <input id="name" name="name" type="text"
-                                               placeholder="Имя, кого нам благодарить?" />
+                                        <input
+                                            id="name"
+                                            name="name"
+                                            type="text"
+                                            placeholder="Имя, кого нам благодарить?"
+                                            value={name}
+                                            onInput={(e)=>setName(e.target.value)}
+                                        />
                                     </label>
                                 </div>
-
                                 <div className="input__wrap">
                                     <label className="input">
-                                        <input id="mail" name="mail" type="text" placeholder="Email" />
+                                        <input
+                                            id="mail"
+                                            name="mail"
+                                            type="text"
+                                            placeholder="Email"
+                                            value={mail}
+                                            onInput={(e)=>setMail(e.target.value)}
+                                        />
                                     </label>
                                 </div>
-
-
                                 <div className='checkbox__wrap'>
-                                    <input type="checkbox" checked="checked" className="custom-checkbox" id="yes"
+                                    <input type="checkbox" className="custom-checkbox" id="yes"
                                            name="yes" value="yes" />
                                         <label
                                             htmlFor="yes"><span>Я ознакомился с условия публичной оферты</span></label>
                                 </div>
-
                                 <div className='checkbox__wrap'>
-                                    <input type="checkbox" checked="checked" className="custom-checkbox" id="approval"
+                                    <input type="checkbox" className="custom-checkbox" id="approval"
                                            name="approval" value="approval" />
                                         <label htmlFor="approval"><span>Даю согласие на обработку моих персональных данных</span></label>
                                 </div>
-
                                 <div className="button__wrap">
                                     <button className="btn">Пожертвовать</button>
 

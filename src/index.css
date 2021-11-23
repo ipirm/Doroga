@@ -87,6 +87,7 @@ body {
     font-size: 16px;
     min-width: 320px;
     position: relative;
+    line-height: normal;
     font-family: "NotoSans", sans-serif;
     overflow-x: hidden;
     color: #444448;
@@ -123,7 +124,6 @@ a:hover, a:active, a:focus {
 
 a {
     color: #444448;
-    cursor: pointer;
     text-decoration: none;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
@@ -1621,10 +1621,15 @@ img.mfp-img {
 
 .popup__home-img a {
     margin-right: 25px;
-    margin-bottom: 25px;
-    max-width: 260px;
-    max-height: 280px;
     display: inline-block;
+    margin-bottom: 25px;
+    height: 375px;
+    max-width: 390px;
+}
+
+.popup__home-img img {
+    width: 100%;
+    height: 100%;
 }
 
 .popup__home-img a:last-child {
@@ -2069,6 +2074,15 @@ template, [hidden] {
     align-items: center;
     width: 25%;
     margin-bottom: 25px;
+    cursor: pointer;
+}
+
+.main__content-item:hover span {
+    color: #5F913F;
+}
+
+.main__content-item:hover .main__content-img svg {
+    fill: #5F913F;
 }
 
 .main__content-item:nth-child(1) {
@@ -2086,6 +2100,10 @@ template, [hidden] {
 .main__content-img {
     margin-bottom: 5px;
     min-height: 62px;
+}
+
+.main__content-img svg {
+    fill: #BFD6AD;
 }
 
 .main__content span {
@@ -2133,15 +2151,36 @@ template, [hidden] {
     margin-bottom: 15px;
 }
 
-.main__content-item-green span {
-    color: #5F913F;
-}
 
 .money {
     font-family: "Lifehack";
     color: #5F913F;
     font-size: 50px;
     margin-bottom: 20px;
+}
+
+.input__file {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+}
+
+.input__file-icon-wrapper {
+    height: 60px;
+    width: 60px;
+    margin-right: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    border-right: 1px solid #fff;
+}
+
+.input__file-button-text {
+    line-height: 1;
+    margin-top: 1px;
 }
 
 .details {
@@ -2176,6 +2215,7 @@ template, [hidden] {
     background-image: url(/src/img/main__footer.png);
     background-repeat: no-repeat;
     background-position: bottom;
+    height: 100vh;
 }
 
 .progress progress[value="0"] + .progress-value:before {
@@ -3102,7 +3142,7 @@ template, [hidden] {
     font-size: 18px;
     text-align: center;
     max-width: 395px;
-    margin-bottom: 40px;
+    margin-bottom: 15px;
     line-height: 23px;
 }
 
@@ -3138,7 +3178,7 @@ template, [hidden] {
     bottom: 0;
     width: 472px;
     height: 713px;
-    background: url(./img/boy.svg);
+    background: url(/src/img/boy.svg);
     background-repeat: no-repeat;
     background-size: cover;
     z-index: 1;
@@ -3341,10 +3381,6 @@ template, [hidden] {
 
 .gallery {
     padding-bottom: 30px;
-}
-.gallery-image {
-    width: 100%;
-    height: 100%;
 }
 
 .gallery h2 {
@@ -3765,6 +3801,9 @@ template, [hidden] {
     }
     .header__wrap .header__left, .header__wrap .header__right {
         display: none;
+    }
+    .body {
+        height: auto;
     }
     .nav {
         display: block;

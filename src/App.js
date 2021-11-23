@@ -15,7 +15,7 @@ export default function App() {
                                     <img src="/img/heart.svg" alt="" />
                                 </a>
 
-                                <a href="#">
+                                <a href="https://doroga-zhizni.org/" target="_blank">
                                     <img src="/img/logo.svg" alt="" />
                                 </a>
 
@@ -50,7 +50,7 @@ export default function App() {
                                 <img src="/img/heart.svg" alt="" />
                             </a>
 
-                            <a href="#">
+                            <a href="https://doroga-zhizni.org/" target="_blank">
                                 <img src="/img/logo.svg" alt="" />
                             </a>
 
