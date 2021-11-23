@@ -37,7 +37,35 @@ tpl:'<div class="fancybox-share"><h1>{{SHARE}}</h1><p><a class="fancybox-share__
 
 $(function() {
 
+    $('.header__left').magnificPopup({
+        delegate: 'a',
+        removalDelay: 500, //delay removal by X to allow out-animation
+        callbacks: {
+            beforeOpen: function() {
+                this.st.mainClass = this.st.el.attr('data-effect');
+            }
+        },
+        midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+    });
 
+    $('.main__btn-wrap .details').magnificPopup({
+        // delegate: 'a',
+        removalDelay: 500, //delay removal by X to allow out-animation
+        callbacks: {
+            beforeOpen: function() {
+                this.st.mainClass = this.st.el.attr('data-effect');
+            }
+        },
+        midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+    });
+
+
+    $('.nav').on('click', function() {
+        $('.mob-nav').toggleClass('mob-active');
+        $('.overlay').toggleClass('over-on');
+        $('.nav').toggleClass('active');
+        $('body').toggleClass('over-hidden');
+    });
 
 });
 

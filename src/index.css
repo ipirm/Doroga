@@ -2076,7 +2076,13 @@ template, [hidden] {
     margin-bottom: 25px;
     cursor: pointer;
 }
+.main__content-item svg path {
+    fill: #BFD6AD ;
+}
 
+.main__content-item:hover svg path {
+    fill: #5F913F ;
+}
 .main__content-item:hover span {
     color: #5F913F;
 }
