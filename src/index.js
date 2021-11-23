@@ -1,5 +1,4 @@
 import { render } from "react-dom";
-import { Fragment } from "react";
 import {
     BrowserRouter,
     Routes,
@@ -11,6 +10,9 @@ import Share from "./routes/share";
 import Thank from "./routes/thank";
 import './index.css';
 import RouteWatcher from "./components/RouteWatcher";
+import axios from "axios";
+
+axios.defaults.baseURL = ''
 
 const rootElement = document.getElementById("root");
 render(
