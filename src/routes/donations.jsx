@@ -1,10 +1,12 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import { Navigate, Link } from "react-router-dom";
 import axios from "axios";
+import {useSnackbar} from "notistack";
 
 export default function Donations() {
+    const [imagesFetched, setImagesFetched] = useState(false)
     const [showImages, setShowImages] = useState(false)
-    const [visibleImages, setVisibleImages] = useState(new Array(10).fill({}))
+    const [visibleImages, setVisibleImages] = useState(new Array(9).fill({}))
     const [imagesToFetch] = useState(100)
     const [maxImagesToShow] = useState(9)
     const [randomizeImagesTimeout] = useState(20)
@@ -22,6 +24,7 @@ export default function Donations() {
             await axios.get(`/image?page=0&size=${imagesToFetch}`).then(res => {
                 fetchedImages = res.data.result.content
                 randomizeImages()
+                setImagesFetched(res.data.result.content?.length > 0)
             }).catch(e => {
                 console.error(e)
             })
@@ -38,7 +41,8 @@ export default function Donations() {
         }
 
         const interval = setInterval(() => {
-            randomizeImages()
+            if (fetchedImages?.length > 1)
+                randomizeImages()
         }, randomizeImagesTimeout * 1000)
 
         return () => {
@@ -47,7 +51,7 @@ export default function Donations() {
     }, [])
 
     const shownImages = useMemo(() => {
-        return visibleImages?.length ? visibleImages : new Array(10).fill({})
+        return visibleImages?.length ? visibleImages : new Array(9).fill({})
     }, [visibleImages])
 
     const [otherSumValue, setOtherSumValue] = useState('')
@@ -86,18 +90,22 @@ export default function Donations() {
         }
     }
 
+    const { enqueueSnackbar } = useSnackbar()
+
     const pay = function () {
 
         if (amount <=0) {
             return
         }
 
+        const sentAmount = amount
+
         let widget = new window.cp.CloudPayments();
         widget.pay('charge', // или 'charge'
             { //options
                 publicId: 'pk_8f4a3e73345dc747c920553b51c6b', //id из личного кабинета
                 description: 'Оплата товаров в example.com', //назначение
-                amount: parseFloat(amount), //сумма
+                amount: parseFloat(sentAmount), //сумма
                 currency: 'RUB', //валюта
                 skin: "mini", //дизайн виджета (необязательно)
                 data: {
@@ -105,11 +113,23 @@ export default function Donations() {
                 }
             },
             {
-                onSuccess: function (options) { // success
+                onSuccess: async function (options) { // success
+                    await axios.put('/sum', {
+                        value: sentAmount
+                    })
+                      .catch(e => {
+                          console.error(e)
+                          enqueueSnackbar('Не получилось записать вашу транзакцию, пожалуйста обратитесь к группе поддержки', {
+                              variant: 'error'
+                          })
+                      })
                     setIsPaymentSuccess(true)
                 },
                 onFail: function (reason, options) { // fail
                     //действие при неуспешной оплате
+                    enqueueSnackbar('Не получилось сделать оплату, пожалуйста попробуйте еще раз', {
+                        variant: 'error'
+                    })
                 },
                 onComplete: function (paymentResult, options) { //Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
                     //например вызов вашей аналитики Facebook Pixel
@@ -355,23 +375,23 @@ export default function Donations() {
                     </div>
                 </div>
             </section>
-            <section className="gallery">
+            { imagesFetched && <section className="gallery">
                 <div className="container">
 
                     <h2>Помогли Дому для жизни и поддержали акцию «Щедрый вторник»</h2>
 
                     <div className={`gallery__wrap ${!showImages ? 'gallery__wrap--hidden' : ''}`.trim()}>
-                        { shownImages.map(img => (
+                        {shownImages.map(img => (
                           <a data-fancybox="gallery" href={img.url} data-width="260" data-height="280" key={img.id}>
                               <div className="gallery__image">
-                                <img src={img.url} alt="" />
+                                  <img src={img.url} alt=""/>
                               </div>
                           </a>
                         ))}
                     </div>
 
                 </div>
-            </section>
+            </section>}
             <footer className="footer">
                 <div className="footer__wrap">
 
