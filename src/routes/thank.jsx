@@ -5,9 +5,18 @@ import {useSnackbar} from "notistack";
 
 export default function Thank() {
   const imageChooserRef = useRef(null)
-  const [redirectToShare, setRedirectToShare] = useState(false)
   const { enqueueSnackbar } = useSnackbar();
   const [imageLoading, setImageLoading] = useState(false)
+  const [imageId, setImageId] = useState(null)
+
+  const onLoadImageError = (e) => {
+    if (e)
+      console.error(e)
+    enqueueSnackbar('Произошла ошибка при загрузке вашей фотографии, пожалуйста попробуйте еще раз', {
+      variant: 'error'
+    })
+    setImageLoading(false)
+  }
 
   const onFileChange = async e => {
     const file = e.target.files[0];
@@ -17,18 +26,17 @@ export default function Thank() {
       setImageLoading(true)
       await axios.post('/image', formData)
         .then(res => {
-          console.log(res.data)
-          // setRedirectToShare(true)
+          if (!res.data.ok) {
+            onLoadImageError(e)
+            return
+          }
+          setImageId(res.data.result.id)
           enqueueSnackbar('Ваша фотография успешно загружена!', {
             variant: 'success'
           })
         })
         .catch(e => {
-          console.error(e)
-          enqueueSnackbar('Произошла ошибка при загрузке вашей фотографии, пожалуйста попробуйте еще раз', {
-            variant: 'error'
-          })
-          setImageLoading(false)
+          onLoadImageError(e)
         })
     }
   }
@@ -39,7 +47,7 @@ export default function Thank() {
 
   return (
     <div>
-      { redirectToShare ? <Navigate to="/share" /> : null }
+      { imageId ? <Navigate to={`/share?id=${imageId}`} /> : null }
       <input
         placeholder="Загрузить файлы"
         type="file"

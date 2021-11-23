@@ -1,10 +1,47 @@
-import { Link } from "react-router-dom";
+import {Link, Navigate, useLocation} from "react-router-dom";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {useSnackbar} from "notistack";
 
 export default function Share() {
+    const [imageUrl, setImageUrl] = useState(null)
+    const [redirectToIndex, setRedirectToIndex] = useState(false)
+    const { search } = useLocation()
+    const { enqueueSnackbar } = useSnackbar()
+
+    const onLoadImageError = (e) => {
+        if (e)
+            console.error(e)
+
+        enqueueSnackbar('Такого победителя не существует :(', {
+            variant: 'error'
+        })
+        setRedirectToIndex(true)
+    }
+
+    useEffect(() => {
+        (async () => {
+            const queryString = require('query-string')
+
+            const query = queryString.parse(search);
+
+            if (!query.id) {
+                onLoadImageError()
+            } else {
+                await axios.get(`/image/${query.id}`).then(res => {
+                    setImageUrl(res.data.result.url)
+                }).catch(e => {
+                    onLoadImageError(e)
+                })
+            }
+        })()
+    }, [])
+
     return (
         <body>
-        <div className="overlay"></div>
+        { redirectToIndex ? <Navigate to={'/'} /> : null }
 
+        <div className="overlay"></div>
 
         <div className="body">
             <header className="header">
@@ -80,25 +117,7 @@ export default function Share() {
 
                         <div className="share__wrap">
 
-                            <div className="share__img share__img-pc">
-
-                                <ul className="share__company">
-                                    <li>
-                                        <img src="/img/share__heart.png" alt="" />
-                                    </li>
-
-                                    <li>
-                                        <img src="/img/logo.svg" alt="" />
-                                    </li>
-
-                                    <li>
-                                        <img src="/img/heart.svg" alt="" />
-                                            <span>#ЩедрыйВторник</span>
-                                    </li>
-
-                                </ul>
-
-                            </div>
+                            <div className="share__img share__img-pc" style={{ backgroundImage: `url(${imageUrl})` }} />
                             <div className="share__title">
                                 <h1 className="section__title">
                                     Расскажите друзьям о Щедром вторнике
@@ -106,24 +125,7 @@ export default function Share() {
                                 <p>
                                     Поделитесь ссылкой на сайт в социальных сетях, чтобы больше людей узнали об акции
                                 </p>
-                                <div className="share__img share__img-mob">
-                                    <ul className="share__company">
-                                        <li>
-                                            <img src="/img/share__heart.png" alt="" />
-                                        </li>
-
-                                        <li>
-                                            <img src="/img/logo.svg" alt="" />
-                                        </li>
-
-                                        <li>
-                                            <img src="/img/heart.svg" alt="" />
-                                                <span>#ЩедрыйВторник</span>
-                                        </li>
-
-                                    </ul>
-
-                                </div>
+                                <div className="share__img share__img-mob" style={{ backgroundImage: `url(${imageUrl})` }} />
                                 <div className="share__social">
 
                                     <a href="#">
@@ -145,9 +147,9 @@ export default function Share() {
                                 </div>
 
                                 <div className="main__btn-wrap">
-                                    <Link className="btn" to="/">Загрузить</Link>
+                                    <a className="btn" href={imageUrl} download>Загрузить</a>
 
-                                    <a className="miss" href="#">Пропустить</a>
+                                    <Link className="miss" to="/">Пропустить</Link>
                                 </div>
 
                             </div>
