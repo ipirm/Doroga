@@ -1,20 +1,35 @@
-import {Link, Redirect} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import axios from "axios";
 import {useRef, useState} from "react";
+import {useSnackbar} from "notistack";
 
 export default function Thank() {
   const imageChooserRef = useRef(null)
   const [redirectToShare, setRedirectToShare] = useState(false)
+  const { enqueueSnackbar } = useSnackbar();
+  const [imageLoading, setImageLoading] = useState(false)
 
   const onFileChange = async e => {
     const file = e.target.files[0];
     if (file) {
       const formData = new FormData()
       formData.append('image', file)
-      await axios.post('/image').then(res => {
-        console.log(res.data)
-        // setRedirectToShare(true)
-      })
+      setImageLoading(true)
+      await axios.post('/image', formData)
+        .then(res => {
+          console.log(res.data)
+          // setRedirectToShare(true)
+          enqueueSnackbar('Ваша фотография успешно загружена!', {
+            variant: 'success'
+          })
+        })
+        .catch(e => {
+          console.error(e)
+          enqueueSnackbar('Произошла ошибка при загрузке вашей фотографии, пожалуйста попоробуйте еще раз', {
+            variant: 'error'
+          })
+          setImageLoading(false)
+        })
     }
   }
 
@@ -24,7 +39,7 @@ export default function Thank() {
 
   return (
     <div>
-      { redirectToShare ? <Redirect to="/share" /> : null }
+      { redirectToShare ? <Navigate to="/share" /> : null }
       <input
         placeholder="Загрузить файлы"
         type="file"
@@ -98,10 +113,10 @@ export default function Thank() {
                   Загрузите своё фото в общую галерею. Вместе мы сделаем мир лучше
                 </p>
                 <div className="main__btn-wrap">
-                  <label htmlFor="input__file" className="btn" onClick={onChooseFile} style={{marginTop: '30px'}}>
+                  <label htmlFor="input__file" className={`btn ${imageLoading ? 'disabled' : ''}`.trim()} onClick={onChooseFile} style={{marginTop: '30px'}}>
                     <span className="input__file-button-text">Загрузить</span>
                   </label>
-                  <Link className="miss" to="/">Пропустить</Link>
+                  { !imageLoading ? <Link className="miss" to="/">Пропустить</Link> : null }
                 </div>
               </div>
             </div>

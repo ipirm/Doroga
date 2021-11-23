@@ -3534,7 +3534,7 @@ template, [hidden] {
     opacity: .5;
 }
 .red-border::after {
-    background-color: red;
+    background-color: red !important;
 }
 
 .input input::-ms-input-placeholder {

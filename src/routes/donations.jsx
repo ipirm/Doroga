@@ -1,11 +1,31 @@
-import {useMemo, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
 export default function Donations() {
+    const [visibleImages, setVisibleImages] = useState([])
+    const [fetchedImages, setFetchedImages] = useState([])
+    const [imagesToFetch] = useState(50)
+
+    useEffect(() => {
+        (async () => {
+            await axios.get(`/image?page=1&size=${imagesToFetch}`).then(res => {
+                console.log(res.data)
+            }).catch(e => {
+                console.error(e)
+            })
+        })()
+    }, [])
+
     const [otherSumValue, setOtherSumValue] = useState('')
     const [selectedAmount,setSelectedAmount] = useState('')
     const [name, setName] = useState('')
     const [mail, setMail] = useState('')
     const [isPaymentSuccess, setIsPaymentSuccess] = useState(false)
+
+    const [showErrors, setShowErrors] = useState(false)
+    const [otherSumError, setOtherSumError] = useState(false)
+    const [nameError, setNameError] = useState(false)
+    const [mailError, setMailError] = useState(false)
 
         const amount = useMemo(() => {
         if (selectedAmount) {
@@ -64,23 +84,20 @@ export default function Donations() {
         )
     };
 
-    const inputValidation = (e, setFunc, inputRef) => {
-        setFunc(e.target.value)
-
-        const input = inputRef?.current?.querySelector('.input-target')
-        if (e.target.value.trim() !== '') {
-            input.classList.add('red-border')
-        } else {
-            input.classList.remove('red-border')
-        }
+    const checkValidation = () => {
+        setNameError(name.trim() === '')
+        setMailError(mail.trim() === '')
+        setOtherSumError(!selectedAmount && otherSumValue.trim() === '')
     }
 
     const onSubmitPayment = (e) => {
         e.preventDefault()
-        if (name.value === '' && mail.value === '') {
-            inputValidation()
-        } else {
+        if (name.trim() !== '' && mail.trim() !== '') {
+            setShowErrors(false)
             pay()
+        } else {
+            setShowErrors(true)
+            checkValidation()
         }
     }
 
@@ -238,7 +255,7 @@ export default function Donations() {
                                     </div>
                                 </div>
                                 <div className="input__wrap" ref={otherSumRef}>
-                                    <label className="input">
+                                    <label className={`input ${showErrors && otherSumError ? 'red-border' : ''}`.trim()}>
                                         <input
                                             id="sum"
                                             className="input-target"
@@ -251,7 +268,7 @@ export default function Donations() {
                                     </label>
                                 </div>
                                 <div className="input__wrap" ref={nameInputRef}>
-                                    <label className="input">
+                                    <label className={`input ${showErrors && nameError ? 'red-border' : ''}`.trim()}>
                                         <input
                                             id="name"
                                             className="input-target"
@@ -264,7 +281,7 @@ export default function Donations() {
                                     <span className="input-placeholder">Имя, кого нам благодарить?<span className="red">*</span></span>
                                 </div>
                                 <div className="input__wrap">
-                                    <label className="input" ref={mailInputRef}>
+                                    <label className={`input ${showErrors && mailError ? 'red-border' : ''}`.trim()} ref={mailInputRef}>
                                         <input
                                             id="mail"
                                             name="mail"
