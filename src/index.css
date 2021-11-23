@@ -3401,10 +3401,23 @@ template, [hidden] {
     grid-gap: 20px;
     -ms-grid-columns: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
+    opacity: 1;
+    transition: opacity 0.45s ease;
+}
+
+.gallery__image {
+    position: relative;
+    padding-bottom: 100%;
+    width: 100%;
+}
+
+.gallery__wrap--hidden {
+    opacity: 0;
 }
 
 .gallery__wrap a {
     border-radius: 20px;
+    width: 100%;
 }
 
 .gallery__wrap a img {
@@ -3414,6 +3427,9 @@ template, [hidden] {
     border-radius: 20px;
     -o-object-fit: cover;
     object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .s-gallery {

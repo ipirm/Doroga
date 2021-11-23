@@ -1,21 +1,54 @@
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import { Navigate, Link } from "react-router-dom";
 import axios from "axios";
 
 export default function Donations() {
-    const [visibleImages, setVisibleImages] = useState([])
-    const [fetchedImages, setFetchedImages] = useState([])
-    const [imagesToFetch] = useState(50)
+    const [showImages, setShowImages] = useState(false)
+    const [visibleImages, setVisibleImages] = useState(new Array(10).fill({}))
+    const [imagesToFetch] = useState(100)
+    const [maxImagesToShow] = useState(9)
+    const [randomizeImagesTimeout] = useState(20)
+
+    const selectRandomImages = (images, amount) => {
+        if (images?.length)
+            return images.slice().sort(() => 0.5 - Math.random()).slice(0, amount)
+        return []
+    }
 
     useEffect(() => {
+        let fetchedImages;
+
         (async () => {
-            await axios.get(`/image?page=1&size=${imagesToFetch}`).then(res => {
-                console.log(res.data)
+            await axios.get(`/image?page=0&size=${imagesToFetch}`).then(res => {
+                fetchedImages = res.data.result.content
+                randomizeImages()
             }).catch(e => {
                 console.error(e)
             })
         })()
+
+        const randomizeImages = () => {
+            setShowImages(false)
+            setTimeout(() => {
+                setVisibleImages(selectRandomImages(fetchedImages, maxImagesToShow))
+                setTimeout(() => {
+                    setShowImages(true)
+                }, 1)
+            }, 500)
+        }
+
+        const interval = setInterval(() => {
+            randomizeImages()
+        }, randomizeImagesTimeout * 1000)
+
+        return () => {
+            clearInterval(interval)
+        }
     }, [])
+
+    const shownImages = useMemo(() => {
+        return visibleImages?.length ? visibleImages : new Array(10).fill({})
+    }, [visibleImages])
 
     const [otherSumValue, setOtherSumValue] = useState('')
     const [selectedAmount,setSelectedAmount] = useState('')
@@ -327,32 +360,14 @@ export default function Donations() {
 
                     <h2>Помогли Дому для жизни и поддержали акцию «Щедрый вторник»</h2>
 
-                    <div className="gallery__wrap">
-
-                        <a data-fancybox="gallery" href="/img/img.jpg" data-width="260" data-height="280">
-                            <img src="/img/img.jpg" />
-                        </a>
-
-                        <a data-fancybox="gallery" href="/img/img.jpg" data-width="260" data-height="280">
-                            <img src="/img/img.jpg" />
-                        </a>
-
-                        <a data-fancybox="gallery" href="/img/img.jpg" data-width="260" data-height="280">
-                            <img src="/img/img.jpg" />
-                        </a>
-
-                        <a data-fancybox="gallery" href="/img/img.jpg" data-width="260" data-height="280">
-                            <img src="/img/img.jpg" />
-                        </a>
-
-                        <a data-fancybox="gallery" href="/img/img.jpg" data-width="260" data-height="280">
-                            <img src="/img/img.jpg" />
-                        </a>
-
-                        <a data-fancybox="gallery" href="/img/img.jpg" data-width="260" data-height="280">
-                            <img src="/img/img.jpg" />
-                        </a>
-
+                    <div className={`gallery__wrap ${!showImages ? 'gallery__wrap--hidden' : ''}`.trim()}>
+                        { shownImages.map(img => (
+                          <a data-fancybox="gallery" href={img.url} data-width="260" data-height="280" key={img.id}>
+                              <div className="gallery__image">
+                                <img src={img.url} alt="" />
+                              </div>
+                          </a>
+                        ))}
                     </div>
 
                 </div>
