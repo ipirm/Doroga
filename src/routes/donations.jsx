@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 import { Navigate } from "react-router-dom";
 export default function Donations() {
     const [otherSumValue, setOtherSumValue] = useState('')
@@ -53,12 +53,27 @@ export default function Donations() {
         pay()
     }
 
+    const nameInputRef = useRef(null)
+    const mailInputRef = useRef(null)
+    const otherSumRef = useRef(null)
+
+    const setInputValue = (e, setFunc, inputRef) => {
+        setFunc(e.target.value)
+
+        const placeholder = inputRef?.current?.querySelector('.input-placeholder')
+        if (e.target.value.trim() !== '') {
+            placeholder.classList.add('no-placeholder')
+        } else {
+            placeholder.classList.remove('no-placeholder')
+        }
+    }
+
     return (
-        <body>
+        <div>
         <div className="overlay"></div>
 
         {isPaymentSuccess ? <Navigate to="/thank "/> : null}
-        <div className="body s-gallery">
+        <div className="s-gallery">
             <header className="header">
                 <div className="header__wrap">
 
@@ -206,40 +221,43 @@ export default function Donations() {
                                             <label htmlFor="500"><span>500 ₽</span></label>
                                     </div>
                                 </div>
-                                <div className="input__wrap">
+                                <div className="input__wrap" ref={otherSumRef}>
                                     <label className="input">
                                         <input
                                             id="sum"
+                                            className="input-target"
                                             name="sum"
                                             type="text"
-                                            placeholder="Другая сумма"
                                             value={otherSumValue}
-                                            onInput={(e) => setOtherSumValue(e.target.value)}
+                                            onInput={e => setInputValue(e, setOtherSumValue, otherSumRef)}
                                         />
+                                        <span className="input-placeholder">Другая сумма</span>
                                     </label>
                                 </div>
-                                <div className="input__wrap">
+                                <div className="input__wrap" ref={nameInputRef}>
                                     <label className="input">
                                         <input
                                             id="name"
+                                            className="input-target"
                                             name="name"
                                             type="text"
-                                            placeholder="Имя, кого нам благодарить?"
                                             value={name}
-                                            onInput={(e)=>setName(e.target.value)}
+                                            onInput={e => setInputValue(e, setName, nameInputRef)}
                                         />
                                     </label>
+                                    <span className="input-placeholder">Имя, кого нам благодарить?<span className="red">*</span></span>
                                 </div>
                                 <div className="input__wrap">
-                                    <label className="input">
+                                    <label className="input" ref={mailInputRef}>
                                         <input
                                             id="mail"
                                             name="mail"
+                                            className="input-target"
                                             type="text"
-                                            placeholder="Email"
                                             value={mail}
-                                            onInput={(e)=>setMail(e.target.value)}
+                                            onInput={e => setInputValue(e, setMail, mailInputRef)}
                                         />
+                                        <span className="input-placeholder">Email<span className="red">*</span></span>
                                     </label>
                                 </div>
                                 <div className='checkbox__wrap'>
@@ -382,6 +400,6 @@ export default function Donations() {
                 </div>
             </div>
         </div>
-        </body>
+        </div>
     );
 }

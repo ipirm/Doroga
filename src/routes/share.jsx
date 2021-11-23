@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 export default function Share() {
     return (
@@ -144,7 +145,7 @@ export default function Share() {
                                 </div>
 
                                 <div className="main__btn-wrap">
-                                    <a className="btn" href="#">Скачать</a>
+                                    <Link className="btn" to="/">Загрузить</Link>
 
                                     <a className="miss" href="#">Пропустить</a>
                                 </div>

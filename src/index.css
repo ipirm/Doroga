@@ -3463,6 +3463,27 @@ template, [hidden] {
     object-fit: cover;
 }
 
+.input__wrap {
+    position: relative;
+}
+
+.input-placeholder {
+    position: absolute;
+    top: 0;
+    pointer-events: none;
+    color: #444448;
+    opacity: 0.5;
+    left: 0;
+    transform: translate(0,0);
+}
+.no-placeholder {
+    display: none;
+}
+
+.red {
+    color: red;
+}
+
 .custom-radio + label span {
     position: absolute;
     font-size: 22px;

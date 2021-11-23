@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 
 export default function Thank() {
     return (
-        <body>
+        <div>
         <div className="overlay"></div>
         <div className="body s-thanks">
             <header className="header">
@@ -135,6 +135,6 @@ export default function Thank() {
                 </div>
             </div>
         </div>
-        </body>
+        </div>
     );
 }
