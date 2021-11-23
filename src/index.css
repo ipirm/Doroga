@@ -3459,6 +3459,10 @@ template, [hidden] {
     justify-content: center;
 }
 
+.gallery-image {
+    object-fit: cover;
+}
+
 .custom-radio + label span {
     position: absolute;
     font-size: 22px;

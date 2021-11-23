@@ -70,7 +70,7 @@ export default function Thank() {
                                 <input name="file" type="file" name="file" id="input__file"
                                        className="input input__file" multiple/>
                                 <label htmlFor="input__file" className="btn">
-                                    <span className="input__file-button-text">Скачать</span>
+                                    <span className="input__file-button-text">Загрузить</span>
                                 </label>
                                 <Link className="miss" to="/">Пропустить</Link>
                             </div>
