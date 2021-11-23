@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import { Navigate, Link } from "react-router-dom";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import axios from "axios";
 import {useSnackbar} from "notistack";
 
@@ -384,7 +385,7 @@ export default function Donations() {
                         {shownImages.map(img => (
                           <a data-fancybox="gallery" href={img.url} data-width="260" data-height="280" key={img.id}>
                               <div className="gallery__image">
-                                  <img src={img.url} alt=""/>
+                                  <LazyLoadImage src={img.url} alt=""/>
                               </div>
                           </a>
                         ))}
