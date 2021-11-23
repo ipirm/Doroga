@@ -3799,8 +3799,6 @@ template, [hidden] {
         width: 100%;
     }
     .main__content .progress-value {
-        -webkit-transform: initial;
-        transform: initial;
     }
     .main__content .details {
         padding-bottom: 320px;
