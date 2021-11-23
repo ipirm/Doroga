@@ -349,13 +349,13 @@ export default function Donations() {
                                     </label>
                                 </div>
                                 <div className='checkbox__wrap'>
-                                    <input checked type="checkbox" className="custom-checkbox" id="yes"
+                                    <input type="checkbox" className="custom-checkbox" id="yes"
                                            name="yes" value="yes" />
                                         <label
                                             htmlFor="yes"><span>Я ознакомился с условия публичной оферты</span></label>
                                 </div>
                                 <div className='checkbox__wrap'>
-                                    <input checked type="checkbox" className="custom-checkbox" id="approval"
+                                    <input type="checkbox" className="custom-checkbox" id="approval"
                                            name="approval" value="approval" />
                                         <label htmlFor="approval"><span>Даю согласие на обработку моих персональных данных</span></label>
                                 </div>
