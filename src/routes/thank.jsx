@@ -20,7 +20,7 @@ export default function Thank() {
 
   const onFileChange = async e => {
     const file = e.target.files[0];
-    if (file) {
+    if (file && (file.name.includes(".png") || file.name.includes(".jpeg") || file.name.includes(".jpg"))) {
       const formData = new FormData()
       formData.append('image', file)
       setImageLoading(true)
@@ -38,6 +38,10 @@ export default function Thank() {
         .catch(e => {
           onLoadImageError(e)
         })
+    } else {
+      enqueueSnackbar('Пожалуйста, выбирите png или jpeg файл', {
+        variant: 'error'
+      })
     }
   }
 
@@ -65,16 +69,16 @@ export default function Thank() {
             </nav>
             <div className="mob-nav">
               <div className="header__logo-wrap">
-                <Link to="/">
+                <a target="_blank" href="https://givingtuesday.ru/">
                   <img src="img/heart.svg" alt=""/>
-                </Link>
+                </a>
                 <a href="https://doroga-zhizni.org/" target="_blank">
                   <img src="img/logo.svg" alt=""/>
                 </a>
 
-                <a href="#" className="logo-house">
+                <Link to="/" className="logo-house">
                   <img src="img/hous.svg" alt=""/>
-                </a>
+                </Link>
               </div>
               <div className="header__left">
                 <a href="#popup">
@@ -95,15 +99,15 @@ export default function Thank() {
               </a>
             </div>
             <div className="header__logo-wrap">
-              <Link to="/">
+              <a target="_blank" href="https://givingtuesday.ru/">
                 <img src="img/heart.svg" alt=""/>
-              </Link>
+              </a>
               <a href="https://doroga-zhizni.org/">
                 <img src="img/logo.svg" alt=""/>
               </a>
-              <a href="#" className="logo-house">
+              <Link to="/" className="logo-house">
                 <img src="img/hous.svg" alt=""/>
-              </a>
+              </Link>
             </div>
             <div className="header__right">
               <a href="tel:+74993817975" className="header__phone">+7 499 381 79 75</a>
@@ -132,10 +136,10 @@ export default function Thank() {
         </section>
         <footer className="footer">
           <div className="footer__wrap">
-            <p className="copyright">
+            <a href="/oferta.pdf" target="_blank" className="copyright">
               Публичная оферта о добровольном пожертвовании
               <span>© «Дорога Жизни» 2021 г.</span>
-            </p>
+            </a>
           </div>
         </footer>
       </div>

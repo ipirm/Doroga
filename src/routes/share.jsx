@@ -54,17 +54,17 @@ export default function Share() {
                     <div className="mob-nav">
 
                         <div className="header__logo-wrap">
-                            <Link to="/">
+                            <a target="_blank" href="https://givingtuesday.ru/">
                                 <img src="/img/heart.svg" alt="" />
-                            </Link>
+                            </a>
 
                             <a href="https://doroga-zhizni.org/" target="_blank">
                                 <img src="/img/logo.svg" alt="" />
                             </a>
 
-                            <a href="#" className="logo-house">
+                            <Link to="/" className="logo-house">
                                 <img src="/img/hous.svg" alt="" />
-                            </a>
+                            </Link>
                         </div>
 
                         <div className="header__left">
@@ -89,17 +89,17 @@ export default function Share() {
                     </div>
 
                     <div className="header__logo-wrap">
-                        <Link to="/">
+                        <a target="_blank" href="https://givingtuesday.ru/">
                             <img src="/img/heart.svg" alt="" />
-                        </Link>
+                        </a>
 
                         <a href="https://doroga-zhizni.org/" target="_blank">
                             <img src="/img/logo.svg" alt="" />
                         </a>
 
-                        <a href="#" className="logo-house">
+                        <Link to="/" className="logo-house">
                             <img src="/img/hous.svg" alt="" />
-                        </a>
+                        </Link>
                     </div>
 
                     <div className="header__right">
@@ -117,7 +117,12 @@ export default function Share() {
 
                         <div className="share__wrap">
 
-                            <div className="share__img share__img-pc" style={{ backgroundImage: `url(${imageUrl})` }} />
+                            <div className="share__img share__img-pc" style={{ backgroundImage: `url(${imageUrl})` }}>
+                                {window.innerWidth < 537 ?
+                                    <img className="share__mask" src="/img/mask.png" alt="#"/>
+                                    :
+                                    <img className="share__mask" src="/img/mask-mob.png" alt="#"/>}
+                            </div>
                             <div className="share__title">
                                 <h1 className="section__title">
                                     Расскажите друзьям о Щедром вторнике
@@ -148,7 +153,6 @@ export default function Share() {
                                 </div>
 
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -156,10 +160,10 @@ export default function Share() {
             <footer className="footer">
                 <div className="footer__wrap">
 
-                    <p className="copyright">
+                    <a href="/oferta.pdf" target="_blank" className="copyright">
                         Публичная оферта о добровольном пожертвовании
                         <span>© «Дорога Жизни» 2021 г.</span>
-                    </p>
+                    </a>
 
                 </div>
             </footer>

@@ -172,17 +172,17 @@ export default function Donations() {
                     <div className="mob-nav">
 
                         <div className="header__logo-wrap">
-                            <Link to="/">
+                            <a target="_blank" href="https://givingtuesday.ru/">
                                 <img src="/img/heart.svg" alt="" />
-                            </Link>
+                            </a>
 
                             <a href="https://doroga-zhizni.org/" target="_blank">
                                 <img src="/img/logo.svg" alt="" />
                             </a>
 
-                            <a href="#" className="logo-house">
+                            <Link to="/" className="logo-house">
                                 <img src="/img/hous.svg" alt="" />
-                            </a>
+                            </Link>
                         </div>
 
                         <div className="header__left">
@@ -207,17 +207,17 @@ export default function Donations() {
                     </div>
 
                     <div className="header__logo-wrap">
-                        <Link to="/">
+                        <a target="_blank" href="https://givingtuesday.ru/">
                             <img src="/img/heart.svg" alt="" />
-                        </Link>
+                        </a>
 
                         <a href="https://doroga-zhizni.org/" target="_blank">
                             <img src="/img/logo.svg" alt="" />
                         </a>
 
-                        <a href="#" className="logo-house">
+                        <Link to="/" className="logo-house">
                             <img src="/img/hous.svg" alt="" />
-                        </a>
+                        </Link>
                     </div>
 
                     <div className="header__right">
@@ -352,12 +352,12 @@ export default function Donations() {
                                     <input type="checkbox" className="custom-checkbox" id="yes"
                                            name="yes" value="yes" />
                                         <label
-                                            htmlFor="yes"><a href="/oferta.pdf" target="_blank">Я ознакомился с условия публичной оферты</a></label>
+                                            htmlFor="yes"><span>Я ознакомился с условия публичной оферты</span></label>
                                 </div>
                                 <div className='checkbox__wrap'>
                                     <input type="checkbox" className="custom-checkbox" id="approval"
                                            name="approval" value="approval" />
-                                        <label htmlFor="approval"><a>Даю согласие на обработку моих персональных данных</a></label>
+                                        <label htmlFor="approval"><span>Даю согласие на обработку моих персональных данных</span></label>
                                 </div>
                                 <div className="button__wrap">
                                     <button className="btn">Пожертвовать</button>
@@ -383,7 +383,7 @@ export default function Donations() {
 
                     <div className={`gallery__wrap ${!showImages ? 'gallery__wrap--hidden' : ''}`.trim()}>
                         {shownImages.map(img => (
-                          <a data-fancybox="gallery" href={img.url} data-width="260" data-height="280" key={img.id}>
+                          <a key={img.id}>
                               <div className="gallery__image">
                                   <LazyLoadImage src={img.url} alt=""/>
                               </div>
@@ -396,10 +396,10 @@ export default function Donations() {
             <footer className="footer">
                 <div className="footer__wrap">
 
-                    <p className="copyright">
+                    <a href="/oferta.pdf" target="_blank" className="copyright">
                         Публичная оферта о добровольном пожертвовании
                         <span>© «Дорога Жизни» 2021 г.</span>
-                    </p>
+                    </a>
 
                 </div>
             </footer>

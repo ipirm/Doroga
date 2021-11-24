@@ -41,17 +41,17 @@ export default function App() {
                             </nav>
                             <div className="mob-nav">
                                 <div className="header__logo-wrap">
-                                    <Link to="/">
+                                    <a target="_blank" href="https://givingtuesday.ru/">
                                         <img src="/img/heart.svg" alt="" />
-                                    </Link>
+                                    </a>
 
                                     <a href="https://doroga-zhizni.org/" target="_blank">
                                         <img src="/img/logo.svg" alt="" />
                                     </a>
 
-                                    <a href="#" className="logo-house">
+                                    <Link to="/" className="logo-house">
                                         <img src="/img/hous.svg" alt="" />
-                                    </a>
+                                    </Link>
                                 </div>
 
                                 <div className="header__left">
@@ -76,17 +76,17 @@ export default function App() {
                             </div>
 
                             <div className="header__logo-wrap">
-                                <Link to="/">
+                                <a target="_blank" href="https://givingtuesday.ru/">
                                     <img src="/img/heart.svg" alt="" />
-                                </Link>
+                                </a>
 
                                 <a href="https://doroga-zhizni.org/" target="_blank">
                                     <img src="/img/logo.svg" alt="" />
                                 </a>
 
-                                <a href="#" className="logo-house">
+                                <Link to="/" className="logo-house">
                                     <img src="/img/hous.svg" alt="" />
-                                </a>
+                                </Link>
                             </div>
 
                             <div className="header__right">
@@ -234,10 +234,10 @@ export default function App() {
                     <footer className="footer">
                         <div className="footer__wrap">
 
-                            <p className="copyright">
+                            <a href="/oferta.pdf" target="_blank" className="copyright">
                                 Публичная оферта о добровольном пожертвовании
                                 <span>© «Дорога Жизни» 2021 г.</span>
-                            </p>
+                            </a>
 
                         </div>
                     </footer>
@@ -301,7 +301,7 @@ export default function App() {
                                 const imgs = []
 
                                 for (let i = 0; i < 44; i++) {
-                                    imgs.push(<a data-fancybox="gallery" href={`/img/donate/img (${i+1}).jpg`} data-width="260" data-height="280"><img
+                                    imgs.push(<a data-width="260" data-height="280"><img
                                        className="gallery-image" src={`/img/donate/img (${i+1}).jpg`}/></a>)
                                 }
                                 return imgs
