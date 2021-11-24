@@ -127,23 +127,18 @@ export default function Share() {
                                 </p>
                                 <div className="share__img share__img-mob" style={{ backgroundImage: `url(${imageUrl})` }} />
                                 <div className="share__social">
-
-                                    <a href="#">
+                                    <a href={`https://vk.com/share.php?url=${imageUrl}%3Fmethod%3DShare`}>
                                         <img src="/img/vk.svg" alt="" />
                                     </a>
-
-                                    <a href="#">
+                                    <a href={`https://www.facebook.com/sharer/sharer.php?kid_directed_site=http://tuesday.doroga-zhizni.org/0&sdk=joey&u=%2F&display=popup&ref=plugin&src=share_button&og:${imageUrl}`}>
                                         <img src="/img/fa.svg" alt="" />
                                     </a>
-
-                                    <a href="#">
+                                    <a target="_blank" href={`https://twitter.com/intent/tweet?original_referer=${imageUrl}&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=я%20помог%20дому%20для%20жизни&tw_p=tweetbutton&url=http://tuesday.doroga-zhizni.org/`}>
                                         <img src="/img/twit.svg" alt="" />
                                     </a>
-
-                                    <a href="#">
+                                    <a href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org/&title=я%20помог%20дому%20для%20жизни&imageUrl=${imageUrl}`}>
                                         <img src="/img/ok.svg" alt="" />
                                     </a>
-
                                 </div>
 
                                 <div className="main__btn-wrap">
