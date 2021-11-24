@@ -3264,6 +3264,9 @@ template, [hidden] {
 }
 
 .share__img-container {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
     position: relative;
     width: 100%;
     padding-bottom: 100%;

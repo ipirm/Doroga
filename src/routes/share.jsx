@@ -1,7 +1,8 @@
 import {Link, Navigate, useLocation} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import axios from "axios";
 import {useSnackbar} from "notistack";
+import * as htmlToImage from "html-to-image";
 
 export default function Share() {
     const [imageUrl, setImageUrl] = useState(null)
@@ -29,7 +30,9 @@ export default function Share() {
                 onLoadImageError()
             } else {
                 await axios.get(`/image/${query.id}`).then(res => {
-                    setImageUrl(res.data.result.url)
+                    getBase64Image(res.data.result.url, base64 => {
+                        console.log(base64)
+                    })
                 }).catch(e => {
                     onLoadImageError(e)
                 })
@@ -37,11 +40,49 @@ export default function Share() {
         })()
     }, [])
 
+    const imageRef = useRef(null)
+    const [imgSrc, setImgSrc] = useState(null)
+
+    function convert(oldImageSrc, callback) {
+        const img = document.createElement('img');
+        img.style.display = 'none'
+        img.setAttribute('crossorigin', 'anonymous')
+        img.onload = function(){
+            callback(img)
+        }
+        img.src = oldImageSrc;
+    }
+    function getBase64Image(img,callback) {
+        convert(img, function(newImg) {
+            const canvas = document.createElement("canvas");
+            canvas.width = newImg.width;
+            canvas.height = newImg.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(newImg, 0, 0);
+            const base64 = canvas.toDataURL("image/jpeg");
+            callback(base64)
+        })
+    }
+
+    const onDownload = () => {
+        htmlToImage.toJpeg(imageRef?.current, { quality: 0.95 })
+          .then(function (dataUrl) {
+              const link = document.createElement('a');
+              link.download = 'wedriy-vtornik.jpeg';
+              link.href = dataUrl;
+              link.style.display = 'none';
+              link.click();
+              setImgSrc(dataUrl)
+          })
+    }
+
     return (
         <body>
         { redirectToIndex ? <Navigate to={'/'} /> : null }
 
         <div className="overlay"></div>
+
+        <img src={imgSrc} style={{ width: '500px', height: '500px' }} alt=""/>
 
         <div className="body">
             <header className="header">
@@ -117,9 +158,9 @@ export default function Share() {
 
                         <div className="share__wrap">
 
-                            <div className="share__img share__img-pc">
-                                <div className="share__img-container">
-                                    <img className="share__img-el" src={imageUrl} alt=""/>
+                            <div className="share__img share__img-pc" ref={imageRef}>
+                                <div className="share__img-container" style={{ backgroundImage: `url(${imageUrl})` }}>
+                                    {/*<img className="share__img-el" src={imageUrl} alt=""/>*/}
                                     <img className="share__mask" src="/img/mask.png" alt="#"/>
                                 </div>
                             </div>
@@ -152,7 +193,7 @@ export default function Share() {
                                 </div>
 
                                 <div className="main__btn-wrap">
-                                    <a className="btn" href={imageUrl} download>Скачать</a>
+                                    <a className="btn" href="#" onClick={onDownload}>Скачать</a>
 
                                     <Link className="miss" to="/">Пропустить</Link>
                                 </div>
