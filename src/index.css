@@ -3250,11 +3250,7 @@ template, [hidden] {
     width: 560px;
     height: 560px;
     border-radius: 10px;
-    background-image: url(/src/img/man.jpg);
-    background-size: contain;
-    background-repeat: no-repeat;
     position: relative;
-    background-position: center center;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -3267,9 +3263,24 @@ template, [hidden] {
     justify-content: flex-end;
 }
 
+.share__img-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+}
+
+.share__img-el {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .share__mask {
     position: absolute;
-    bottom: 0;
+    bottom: -1px;
     width: 100%;
 }
 

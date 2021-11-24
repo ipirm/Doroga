@@ -117,11 +117,11 @@ export default function Share() {
 
                         <div className="share__wrap">
 
-                            <div className="share__img share__img-pc" style={{ backgroundImage: `url(${imageUrl})` }}>
-                                {window.innerWidth < 537 ?
+                            <div className="share__img share__img-pc">
+                                <div className="share__img-container">
+                                    <img className="share__img-el" src={imageUrl} alt=""/>
                                     <img className="share__mask" src="/img/mask.png" alt="#"/>
-                                    :
-                                    <img className="share__mask" src="/img/mask-mob.png" alt="#"/>}
+                                </div>
                             </div>
                             <div className="share__title">
                                 <h1 className="section__title">
@@ -130,7 +130,12 @@ export default function Share() {
                                 <p>
                                     Поделитесь ссылкой на сайт в социальных сетях, чтобы больше людей узнали об акции
                                 </p>
-                                <div className="share__img share__img-mob" style={{ backgroundImage: `url(${imageUrl})` }} />
+                                <div className="share__img share__img-mob">
+                                    <div className="share__img-container">
+                                        <img className="share__img-el" src={imageUrl} alt=""/>
+                                        <img className="share__mask" src="/img/mask.png" alt="#"/>
+                                    </div>
+                                </div>
                                 <div className="share__social">
                                     <a href={`https://vk.com/share.php?url=${imageUrl}%3Fmethod%3DShare`}>
                                         <img src="/img/vk.svg" alt="" />
