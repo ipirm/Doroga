@@ -3,6 +3,7 @@ import {useEffect, useMemo, useRef, useState} from "react";
 import axios from "axios";
 import {useSnackbar} from "notistack";
 import * as htmlToImage from "html-to-image";
+import {Helmet} from "react-helmet";
 
 export default function Share() {
     const [imageUrl, setImageUrl] = useState(null)
@@ -55,7 +56,11 @@ export default function Share() {
     return (
         <body>
         { redirectToIndex ? <Navigate to={'/'} /> : null }
-
+        <Helmet>
+            <meta property="og:image" content={imageUrl}/>
+            <meta property="og:title" content="Я помог дому для жизни!"/>
+            <meta property="og:url" content="https://tuesday.doroga-zhizni.org/donations"/>
+        </Helmet>
         <div className="overlay"></div>
 
         <div className="body">
@@ -152,13 +157,13 @@ export default function Share() {
                                     </div>
                                 </div>
                                 <div className="share__social">
-                                    <a href={`https://vk.com/share.php?url=${imageUrl}%3Fmethod%3DShare`}>
+                                    <a href={`https://vk.com/share.php?url=https://tuesday.doroga-zhizni.org/donations%3Fmethod%3DShare&image=${imageUrl}`}>
                                         <img src="/img/vk.svg" alt="" />
                                     </a>
-                                    <a href={`https://www.facebook.com/sharer/sharer.php?u=${imageUrl};src=${imageUrl}`}>
+                                    <a href={`https://www.facebook.com/sharer/sharer.php?u=https://tuesday.doroga-zhizni.org/donations`}>
                                         <img src="/img/fa.svg" alt="" />
                                     </a>
-                                    <a target="_blank" href={`https://twitter.com/intent/tweet?original_referer=${imageUrl}&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=${imageUrl}`}>
+                                    <a target="_blank" href={`https://twitter.com/intent/tweet?original_referer=https://tuesday.doroga-zhizni.org/donations&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=https://tuesday.doroga-zhizni.org/donations`}>
                                         <img src="/img/twit.svg" alt="" />
                                     </a>
                                     <a href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org&title=Я%20%20помог%20дому%20для%20жизни!%20&imageUrl=${imageUrl}`}>
