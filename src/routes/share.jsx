@@ -30,9 +30,7 @@ export default function Share() {
                 onLoadImageError()
             } else {
                 await axios.get(`/image/${query.id}`).then(res => {
-                    getBase64Image(res.data.result.url, base64 => {
-                        console.log(base64)
-                    })
+                    setImageUrl(res.data.result.url)
                 }).catch(e => {
                     onLoadImageError(e)
                 })
@@ -41,28 +39,6 @@ export default function Share() {
     }, [])
 
     const imageRef = useRef(null)
-    const [imgSrc, setImgSrc] = useState(null)
-
-    function convert(oldImageSrc, callback) {
-        const img = document.createElement('img');
-        img.style.display = 'none'
-        img.setAttribute('crossorigin', 'anonymous')
-        img.onload = function(){
-            callback(img)
-        }
-        img.src = oldImageSrc;
-    }
-    function getBase64Image(img,callback) {
-        convert(img, function(newImg) {
-            const canvas = document.createElement("canvas");
-            canvas.width = newImg.width;
-            canvas.height = newImg.height;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(newImg, 0, 0);
-            const base64 = canvas.toDataURL("image/jpeg");
-            callback(base64)
-        })
-    }
 
     const onDownload = () => {
         htmlToImage.toJpeg(imageRef?.current, { quality: 0.95 })
@@ -72,7 +48,6 @@ export default function Share() {
               link.href = dataUrl;
               link.style.display = 'none';
               link.click();
-              setImgSrc(dataUrl)
           })
     }
 
@@ -81,8 +56,6 @@ export default function Share() {
         { redirectToIndex ? <Navigate to={'/'} /> : null }
 
         <div className="overlay"></div>
-
-        <img src={imgSrc} style={{ width: '500px', height: '500px' }} alt=""/>
 
         <div className="body">
             <header className="header">
@@ -159,8 +132,8 @@ export default function Share() {
                         <div className="share__wrap">
 
                             <div className="share__img share__img-pc" ref={imageRef}>
-                                <div className="share__img-container" style={{ backgroundImage: `url(${imageUrl})` }}>
-                                    {/*<img className="share__img-el" src={imageUrl} alt=""/>*/}
+                                <div className="share__img-container">
+                                    <img className="share__img-el" src={imageUrl} alt=""/>
                                     <img className="share__mask" src="/img/mask.png" alt="#"/>
                                 </div>
                             </div>
