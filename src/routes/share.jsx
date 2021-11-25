@@ -161,7 +161,7 @@ export default function Share() {
                                     <a target="_blank" href={`https://twitter.com/intent/tweet?original_referer=${imageUrl}&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=${imageUrl}`}>
                                         <img src="/img/twit.svg" alt="" />
                                     </a>
-                                    <a href={`https://connect.ok.ru/offer?url=${imageUrl}`}>
+                                    <a href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org&title=Я%20%20помог%20дому%20для%20жизни!%20&imageUrl=${imageUrl}`}>
                                         <img src="/img/ok.svg" alt="" />
                                     </a>
                                 </div>
