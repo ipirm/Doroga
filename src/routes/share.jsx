@@ -10,6 +10,7 @@ export default function Share() {
     const [redirectToIndex, setRedirectToIndex] = useState(false)
     const { search } = useLocation()
     const { enqueueSnackbar } = useSnackbar()
+    const [imageBase, setImageBase] = useState(null)
 
     const onLoadImageError = (e) => {
         if (e)
@@ -32,6 +33,16 @@ export default function Share() {
             } else {
                 await axios.get(`/image/${query.id}`).then(res => {
                     setImageUrl(res.data.result.url)
+
+                    htmlToImage.toJpeg(window.innerWidth <= 1200 ? imageMobRef?.current : imageRef?.current, { quality: 0.95 })
+                      .then(function (dataUrl) {
+                          const formData = new FormData()
+                          formData.append('base64', dataUrl)
+                          axios.post('/image/social', formData)
+                            .then(res => {
+                                setImageBase(res.data.result?.base64)
+                            })
+                      })
                 }).catch(e => {
                     onLoadImageError(e)
                 })
@@ -164,9 +175,16 @@ export default function Share() {
                                         <img src="/img/fa.svg" alt="" />
                                     </a>
                                     <a target="_blank" href={`https://twitter.com/intent/tweet?original_referer=https://tuesday.doroga-zhizni.org/donations&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=https://tuesday.doroga-zhizni.org/donations`}>
+                                    <a href={`https://vk.com/share.php?url=${imageBase}%3Fmethod%3DShare`}>
+                                        <img src="/img/vk.svg" alt="" />
+                                    </a>
+                                    <a href={`https://www.facebook.com/sharer/sharer.php?u=${imageBase};src=${imageBase}`}>
+                                        <img src="/img/fa.svg" alt="" />
+                                    </a>
+                                    <a target="_blank" href={`https://twitter.com/intent/tweet?original_referer=${imageBase}&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=${imageBase}`}>
                                         <img src="/img/twit.svg" alt="" />
                                     </a>
-                                    <a href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org&title=Я%20%20помог%20дому%20для%20жизни!%20&imageUrl=${imageUrl}`}>
+                                    <a href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org&title=Я%20%20помог%20дому%20для%20жизни!%20&imageUrl=${imageBase}`}>
                                         <img src="/img/ok.svg" alt="" />
                                     </a>
                                 </div>
