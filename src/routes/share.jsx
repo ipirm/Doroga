@@ -39,9 +39,10 @@ export default function Share() {
     }, [])
 
     const imageRef = useRef(null)
+    const imageMobRef = useRef(null)
 
     const onDownload = () => {
-        htmlToImage.toJpeg(imageRef?.current, { quality: 0.95 })
+        htmlToImage.toJpeg(window.innerWidth <= 1200 ? imageMobRef?.current : imageRef?.current, { quality: 0.95 })
           .then(function (dataUrl) {
               const link = document.createElement('a');
               link.download = 'wedriy-vtornik.jpeg';
@@ -144,7 +145,7 @@ export default function Share() {
                                 <p>
                                     Поделитесь ссылкой на сайт в социальных сетях, чтобы больше людей узнали об акции
                                 </p>
-                                <div className="share__img share__img-mob">
+                                <div className="share__img share__img-mob" ref={imageMobRef}>
                                     <div className="share__img-container">
                                         <img className="share__img-el" src={imageUrl} alt=""/>
                                         <img className="share__mask" src="/img/mask.png" alt="#"/>
