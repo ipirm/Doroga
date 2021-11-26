@@ -9,6 +9,7 @@ export default function Share() {
     const [imageUrl, setImageUrl] = useState(null)
     const [redirectToIndex, setRedirectToIndex] = useState(false)
     const { search } = useLocation()
+    const [disableSocials, setDisableSocials] = useState(true)
     const { enqueueSnackbar } = useSnackbar()
     const [imageBase, setImageBase] = useState(null)
 
@@ -41,6 +42,7 @@ export default function Share() {
                           axios.post('/image/social', formData)
                             .then(res => {
                                 setImageBase(res.data.result?.base64)
+                                setDisableSocials(false)
                             })
                       })
                 }).catch(e => {
@@ -68,7 +70,7 @@ export default function Share() {
         <body>
         { redirectToIndex ? <Navigate to={'/'} /> : null }
         <Helmet>
-            <meta property="og:image" content={imageUrl}/>
+            <meta property="og:image" content={imageBase}/>
             <meta property="og:title" content="Я помог дому для жизни!"/>
             <meta property="og:url" content="https://tuesday.doroga-zhizni.org/donations"/>
         </Helmet>
@@ -167,21 +169,15 @@ export default function Share() {
                                         <img className="share__mask" src="/img/mask.png" alt="#"/>
                                     </div>
                                 </div>
-                                <div className="share__social">
-                                    <a href={`https://vk.com/share.php?url=https://tuesday.doroga-zhizni.org/donations%3Fmethod%3DShare&image=${imageUrl}`}>
+                                <div className={disableSocials ? 'disabledSoc share__social' : 'share__social'}>
+                                    <a
+                                        href={`https://vk.com/share.php?url=https://tuesday.doroga-zhizni.org/donations%3Fmethod%3DShare&image=${imageBase}`}>
                                         <img src="/img/vk.svg" alt="" />
                                     </a>
                                     <a href={`https://www.facebook.com/sharer/sharer.php?u=https://tuesday.doroga-zhizni.org/donations`}>
                                         <img src="/img/fa.svg" alt="" />
                                     </a>
-                                    <a target="_blank" href={`https://twitter.com/intent/tweet?original_referer=https://tuesday.doroga-zhizni.org/donations&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=https://tuesday.doroga-zhizni.org/donations`}>
-                                    <a href={`https://vk.com/share.php?url=${imageBase}%3Fmethod%3DShare`}>
-                                        <img src="/img/vk.svg" alt="" />
-                                    </a>
-                                    <a href={`https://www.facebook.com/sharer/sharer.php?u=${imageBase};src=${imageBase}`}>
-                                        <img src="/img/fa.svg" alt="" />
-                                    </a>
-                                    <a target="_blank" href={`https://twitter.com/intent/tweet?original_referer=${imageBase}&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=${imageBase}`}>
+                                    <a target="_blank" href={`https://twitter.com/intent/tweet?original_referer=${imageBase}&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=https://tuesday.doroga-zhizni.org/donations`}>
                                         <img src="/img/twit.svg" alt="" />
                                     </a>
                                     <a href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org&title=Я%20%20помог%20дому%20для%20жизни!%20&imageUrl=${imageBase}`}>

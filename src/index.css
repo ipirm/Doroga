@@ -189,6 +189,10 @@ ul {
     margin-bottom: 33px;
     text-align: center;
 }
+.disabledSoc {
+    pointer-events: none;
+    filter: grayscale(1);
+}
 
 body.compensate-for-scrollbar {
     overflow: hidden;
