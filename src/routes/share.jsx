@@ -5,6 +5,13 @@ import {useSnackbar} from "notistack";
 import * as htmlToImage from "html-to-image";
 import {Helmet} from "react-helmet";
 
+import {
+    FacebookShareButton,
+    OKShareButton,
+    TwitterShareButton,
+    VKShareButton,
+} from "react-share";
+
 export default function Share() {
     const [imageUrl, setImageUrl] = useState(null)
     const [redirectToIndex, setRedirectToIndex] = useState(false)
@@ -35,12 +42,18 @@ export default function Share() {
                 await axios.get(`/image/${query.id}`).then(res => {
                     setImageUrl(res.data.result.url)
                     setDisableSocials(false)
+                    const meta = document.createElement('meta');
+                    meta.name = "og:image";
+                    meta.content = res.data.result.url;
+                    document.getElementsByTagName('head')[0].appendChild(meta);
+                    console.log("wdwdwdwdwd")
                 }).catch(e => {
                     onLoadImageError(e)
                 })
             }
-        })()
+        }) ()
     }, [])
+
 
     const imageRef = useRef(null)
     const imageMobRef = useRef(null)
@@ -60,9 +73,17 @@ export default function Share() {
         <body>
         { redirectToIndex ? <Navigate to={'/'} /> : null }
         <Helmet>
-            <meta property="og:image" content={imageUrl}/>
-            <meta property="og:title" content="Я помог дому для жизни!"/>
-            <meta property="og:url" content="https://tuesday.doroga-zhizni.org/donations"/>
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://tuesday.doroga-zhizni.org/donations" />
+            <meta property="og:title" content="Щедрый вторник" />
+            <meta property="og:description" content="Вместе создаём дом для детей-сирот" />
+            <meta property="og:image" content={imageUrl} />
+
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:url" content="https://tuesday.doroga-zhizni.org/donations" />
+            <meta property="twitter:title" content="Щедрый вторник" />
+            <meta property="twitter:description" content="Вместе создаём дом для детей-сирот" />
+            <meta property="twitter:image" content={imageUrl} />
         </Helmet>
         <div className="overlay"></div>
 
@@ -160,22 +181,58 @@ export default function Share() {
                                     </div>
                                 </div>
                                 <div className={disableSocials ? 'disabledSoc share__social' : 'share__social'}>
-                                    <a
-                                        href={`https://vk.com/share.php?url=https://tuesday.doroga-zhizni.org/donations%3Fmethod%3DShare&image=${imageUrl}`}>
-                                        <img src="/img/vk.svg" alt="" />
-                                    </a>
-                                    <a
-                                        href={`https://www.facebook.com/sharer/sharer.php?u=https://tuesday.doroga-zhizni.org/donations`}>
+                                    <FacebookShareButton
+                                        media={imageUrl}
+                                        url="https://tuesday.doroga-zhizni.org/share"
+                                        className="socials-button"
+                                        qoute="Щедрый вторник"
+                                    >
                                         <img src="/img/fa.svg" alt="" />
-                                    </a>
-                                    <a
-                                        target="_blank" href={`https://twitter.com/intent/tweet?original_referer=${imageUrl}&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=https://tuesday.doroga-zhizni.org/donations`}>
-                                        <img src="/img/twit.svg" alt="" />
-                                    </a>
-                                    <a
-                                        href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org&title=Я%20%20помог%20дому%20для%20жизни!%20&imageUrl=${imageUrl}`}>
+                                    </FacebookShareButton>
+                                    <VKShareButton
+                                        qoute="Щедрый вторник"
+                                        media={imageUrl}
+                                        url="https://tuesday.doroga-zhizni.org/share"
+                                        className="socials-button"
+                                    >
+                                        <img src="/img/vk.svg" alt="" />
+                                    </VKShareButton>
+                                    <OKShareButton
+                                        qoute="Щедрый вторник"
+                                        media={imageUrl}
+                                        url="https://tuesday.doroga-zhizni.org/share"
+                                        className="socials-button"
+                                    >
                                         <img src="/img/ok.svg" alt="" />
-                                    </a>
+                                    </OKShareButton>
+                                    <TwitterShareButton
+                                        qoute="Щедрый вторник"
+                                        media={imageUrl}
+                                        url="https://tuesday.doroga-zhizni.org/share"
+                                        className="socials-button"
+                                    >
+                                        <img src="/img/twit.svg" alt="" />
+                                    </TwitterShareButton>
+                                    {/*<a*/}
+                                    {/*<img src="/img/ok.svg" alt="" />*/}
+                                    {/*    target="_blank"*/}
+                                    {/*    href={`https://vk.com/share.php?url=https://tuesday.doroga-zhizni.org/share`}>*/}
+                                    {/*    <img src="/img/vk.svg" alt="" />*/}
+                                    {/*</a>*/}
+                                    {/*<a*/}
+                                    {/*    target="_blank"*/}
+                                    {/*    href={`https://www.facebook.com/sharer/sharer.php?u=http://tuesday.doroga-zhizni.org/share`}>*/}
+                                    {/*    <img src="/img/fa.svg" alt="" />*/}
+                                    {/*</a>*/}
+                                    {/*<a*/}
+                                    {/*    target="_blank"*/}
+                                    {/*    href={`href="https://twitter.com/intent/tweet&image=twitter:meta`}>*/}
+                                    {/*    <img src="/img/twit.svg" alt="" />*/}
+                                    {/*</a>*/}
+                                    {/*<a*/}
+                                    {/*    target="_blank"*/}
+                                    {/*    href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org/share`}>*/}
+                                    {/*</a>*/}
                                 </div>
                                 <div className="main__btn-wrap">
                                     <a className="btn" download="wedriy.png" href={imageUrl}>Скачать</a>

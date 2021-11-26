@@ -17,7 +17,6 @@ export default function Donations() {
             return images.slice().sort(() => 0.5 - Math.random()).slice(0, amount)
         return []
     }
-
     useEffect(() => {
         let fetchedImages;
 
@@ -235,8 +234,8 @@ export default function Donations() {
 
                         <div className="donations__title">
                             <p>
-                                Делая пожертвование на работу этой программы, вы помогает обустроить дом для
-                                детей-сирот, приезжающих в Москву на лечении.
+                                Делая пожертвование на работу этой программы, вы помогаете обустроить дом для
+                                детей-сирот, приезжающих в Москву на лечениe.
                             </p>
 
                             <div className="donations__icons">
