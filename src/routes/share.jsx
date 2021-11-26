@@ -34,17 +34,6 @@ export default function Share() {
             } else {
                 await axios.get(`/image/${query.id}`).then(res => {
                     setImageUrl(res.data.result.url)
-
-                    htmlToImage.toJpeg(window.innerWidth <= 1200 ? imageMobRef?.current : imageRef?.current, { quality: 0.95 })
-                      .then(function (dataUrl) {
-                          const formData = new FormData()
-                          formData.append('base64', dataUrl)
-                          axios.post('/image/social', formData)
-                            .then(res => {
-                                setImageBase(res.data.result?.base64)
-                                setDisableSocials(false)
-                            })
-                      })
                 }).catch(e => {
                     onLoadImageError(e)
                 })
@@ -58,7 +47,7 @@ export default function Share() {
     // const onDownload = () => {
     //     htmlToImage.toPng(window.innerWidth <= 1200 ? imageMobRef?.current : imageRef?.current, { quality: 0.95 })
     //       .then(function (dataUrl) {
-    //           const link = document.createElement('a');
+    //           const link = imageUrl
     //           link.download = 'wedriy-vtornik.png';
     //           link.href = dataUrl;
     //           link.style.display = 'none';
@@ -174,13 +163,16 @@ export default function Share() {
                                         href={`https://vk.com/share.php?url=https://tuesday.doroga-zhizni.org/donations%3Fmethod%3DShare&image=${imageBase}`}>
                                         <img src="/img/vk.svg" alt="" />
                                     </a>
-                                    <a href={`https://www.facebook.com/sharer/sharer.php?u=https://tuesday.doroga-zhizni.org/donations`}>
+                                    <a
+                                        href={`https://www.facebook.com/sharer/sharer.php?u=https://tuesday.doroga-zhizni.org/donations`}>
                                         <img src="/img/fa.svg" alt="" />
                                     </a>
-                                    <a target="_blank" href={`https://twitter.com/intent/tweet?original_referer=${imageBase}&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=https://tuesday.doroga-zhizni.org/donations`}>
+                                    <a
+                                        target="_blank" href={`https://twitter.com/intent/tweet?original_referer=${imageBase}&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=https://tuesday.doroga-zhizni.org/donations`}>
                                         <img src="/img/twit.svg" alt="" />
                                     </a>
-                                    <a href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org&title=Я%20%20помог%20дому%20для%20жизни!%20&imageUrl=${imageBase}`}>
+                                    <a
+                                        href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org&title=Я%20%20помог%20дому%20для%20жизни!%20&imageUrl=${imageBase}`}>
                                         <img src="/img/ok.svg" alt="" />
                                     </a>
                                 </div>
