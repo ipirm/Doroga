@@ -34,6 +34,7 @@ export default function Share() {
             } else {
                 await axios.get(`/image/${query.id}`).then(res => {
                     setImageUrl(res.data.result.url)
+                    setDisableSocials(false)
                 }).catch(e => {
                     onLoadImageError(e)
                 })
@@ -177,7 +178,7 @@ export default function Share() {
                                     </a>
                                 </div>
                                 <div className="main__btn-wrap">
-                                    <a className="btn" href={imageUrl} download>Скачать</a>
+                                    <a className="btn" download="wedriy.png" href={imageUrl}>Скачать</a>
                                     <Link className="miss" to="/">Пропустить</Link>
                                 </div>
                             </div>
