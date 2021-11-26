@@ -55,16 +55,16 @@ export default function Share() {
     const imageRef = useRef(null)
     const imageMobRef = useRef(null)
 
-    const onDownload = () => {
-        htmlToImage.toPng(window.innerWidth <= 1200 ? imageMobRef?.current : imageRef?.current, { quality: 0.95 })
-          .then(function (dataUrl) {
-              const link = document.createElement('a');
-              link.download = 'wedriy-vtornik.png';
-              link.href = dataUrl;
-              link.style.display = 'none';
-              link.click();
-          })
-    }
+    // const onDownload = () => {
+    //     htmlToImage.toPng(window.innerWidth <= 1200 ? imageMobRef?.current : imageRef?.current, { quality: 0.95 })
+    //       .then(function (dataUrl) {
+    //           const link = document.createElement('a');
+    //           link.download = 'wedriy-vtornik.png';
+    //           link.href = dataUrl;
+    //           link.style.display = 'none';
+    //           link.click();
+    //       })
+    // }
 
     return (
         <body>
@@ -184,13 +184,10 @@ export default function Share() {
                                         <img src="/img/ok.svg" alt="" />
                                     </a>
                                 </div>
-
                                 <div className="main__btn-wrap">
-                                    <a className="btn" href="#" onClick={onDownload}>Скачать</a>
-
+                                    <a className="btn" target="_blank" href={imageBase} download>Скачать</a>
                                     <Link className="miss" to="/">Пропустить</Link>
                                 </div>
-
                             </div>
                         </div>
                     </div>
