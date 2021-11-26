@@ -60,7 +60,7 @@ export default function Share() {
         <body>
         { redirectToIndex ? <Navigate to={'/'} /> : null }
         <Helmet>
-            <meta property="og:image" content={imageBase}/>
+            <meta property="og:image" content={imageUrl}/>
             <meta property="og:title" content="Я помог дому для жизни!"/>
             <meta property="og:url" content="https://tuesday.doroga-zhizni.org/donations"/>
         </Helmet>
