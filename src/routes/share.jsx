@@ -56,10 +56,10 @@ export default function Share() {
     const imageMobRef = useRef(null)
 
     const onDownload = () => {
-        htmlToImage.toJpeg(window.innerWidth <= 1200 ? imageMobRef?.current : imageRef?.current, { quality: 0.95 })
+        htmlToImage.toPng(window.innerWidth <= 1200 ? imageMobRef?.current : imageRef?.current, { quality: 0.95 })
           .then(function (dataUrl) {
               const link = document.createElement('a');
-              link.download = 'wedriy-vtornik.jpeg';
+              link.download = 'wedriy-vtornik.png';
               link.href = dataUrl;
               link.style.display = 'none';
               link.click();
