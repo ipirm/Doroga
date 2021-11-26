@@ -161,7 +161,7 @@ export default function Share() {
                                 </div>
                                 <div className={disableSocials ? 'disabledSoc share__social' : 'share__social'}>
                                     <a
-                                        href={`https://vk.com/share.php?url=https://tuesday.doroga-zhizni.org/donations%3Fmethod%3DShare&image=${imageBase}`}>
+                                        href={`https://vk.com/share.php?url=https://tuesday.doroga-zhizni.org/donations%3Fmethod%3DShare&image=${imageUrl}`}>
                                         <img src="/img/vk.svg" alt="" />
                                     </a>
                                     <a
@@ -169,11 +169,11 @@ export default function Share() {
                                         <img src="/img/fa.svg" alt="" />
                                     </a>
                                     <a
-                                        target="_blank" href={`https://twitter.com/intent/tweet?original_referer=${imageBase}&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=https://tuesday.doroga-zhizni.org/donations`}>
+                                        target="_blank" href={`https://twitter.com/intent/tweet?original_referer=${imageUrl}&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Я%20%20помог%20дому%20для%20жизни!%20&tw_p=tweetbutton&url=https://tuesday.doroga-zhizni.org/donations`}>
                                         <img src="/img/twit.svg" alt="" />
                                     </a>
                                     <a
-                                        href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org&title=Я%20%20помог%20дому%20для%20жизни!%20&imageUrl=${imageBase}`}>
+                                        href={`https://connect.ok.ru/offer?url=http://tuesday.doroga-zhizni.org&title=Я%20%20помог%20дому%20для%20жизни!%20&imageUrl=${imageUrl}`}>
                                         <img src="/img/ok.svg" alt="" />
                                     </a>
                                 </div>
